@@ -10,10 +10,14 @@ import UIKit
 
 class RecCoursesTableViewController: UITableViewController {
 
+    // MARK: Constants
+    let showCourseDetailFromRecCourses = "ShowCourseDetailFromRecCourses"
+    
     // MARK: Properties
     var userCourses = [Course]()
-    var recCourses = [String]()
+    var recCourses = [Course]()
     var recCoursesGraph = RecCoursesGraph()
+    var cellDidSelectIndex: IndexPath = IndexPath()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,15 @@ class RecCoursesTableViewController: UITableViewController {
             dismiss(animated: true, completion: nil)
     }
 
+    // MARK: Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showCourseDetailFromRecCourses {
+            let destNavController: UINavigationController = segue.destination as! UINavigationController
+            let targetController = destNavController.topViewController as! CourseDetailTableViewController
+            targetController.courseToDisplay = recCourses[cellDidSelectIndex.row]
+        }
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -38,11 +51,20 @@ class RecCoursesTableViewController: UITableViewController {
         cell.selectionStyle = .none
     }
     
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        cellDidSelectIndex = indexPath
+        performSegue(withIdentifier: showCourseDetailFromRecCourses, sender: self)
+    }
+    
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecCoursesCell", for: indexPath)
 
-        let courseName = recCourses[indexPath.row]
-        cell.textLabel?.text = courseName
+        let course = recCourses[indexPath.row]
+        cell.textLabel?.text = course.name
+        cell.detailTextLabel?.text = course.title
+        cell.accessoryType = .detailButton
         disableSelectionStyleForCell(cell: cell)
         return cell
     }
