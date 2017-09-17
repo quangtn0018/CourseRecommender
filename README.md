@@ -5,3 +5,9 @@ Incorporated Dave's Graph Data Structure for Swift
 Check out his page: https://github.com/davecom/SwiftGraph
 
 Also used Airbnb Lottie API
+
+# Running
+
+`sudo gem install cocoapods`
+
+`pod install`
