@@ -8,10 +8,10 @@ Also used Airbnb Lottie API
 
 # Running
 
-`
-// cd into root dir
-sudo gem install cocoapods
-pod install
-`
+`// cd into root dir`
+
+`sudo gem install cocoapods`
+
+`pod install`
 
 then open .xcworkspace
